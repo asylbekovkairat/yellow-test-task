@@ -1,11 +1,10 @@
 import React from "react";
 import { Navigate } from 'react-router-dom';
-const PublicRoute = ({component: Component }) => {
-  const authData = localStorage.getItem("authData");
-  if (authData) {
-    return <Navigate to="/jogs" replace/>;
+const PublicRoute = ({component: Component, auth }) => {
+  if (!auth?.access_token) {
+    return Component
   }
-  return <Component/>
+  return <Navigate to="/jogs" />
 };
 
 export default PublicRoute
