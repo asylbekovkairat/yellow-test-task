@@ -4,7 +4,7 @@ import EditModal from "../components/EditModal.jsx/EditModal";
 import JogsCard from "../components/JogsCard.jsx/JogsCard";
 import SaveModal from "../components/saveModal.jsx/SaveModal";
 
-export default function JogsPage({ dateFrom, dateTo }) {
+export default function JogsPage({ dateFrom, dateTo, burger }) {
   const authData = JSON.parse(localStorage.getItem("authData"));
   const [jogsData, setJogsData] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -18,7 +18,8 @@ export default function JogsPage({ dateFrom, dateTo }) {
   const [activeEdit, setActiveEdit] = useState(false);
   const [activeSave, setActiveSave] = useState(false);
   const [user, setUser] = useState([]);
-  const [jogDataState, setJogDataState] = useState(false)
+  const [jogDataState, setJogDataState] = useState(false);
+
   useEffect(() => {
     axios
       .get("https://jogtracker.herokuapp.com/api/v1/auth/user", {
@@ -77,26 +78,36 @@ export default function JogsPage({ dateFrom, dateTo }) {
 
   useEffect(() => {
     jogsData.forEach((el) => {
-      if(user.id === el.user_id){
-        setJogDataState(true)
+      if (user.id === el.user_id) {
+        setJogDataState(true);
       }
-    })
-  })
+    });
+  });
 
   return (
     <>
       {jogDataState ? (
         <div
           className={`jogsCard_wrapper ${
-            activeSave || activeEdit ? "active" : " "
+            activeSave || activeEdit || burger ? "active" : " "
           }`}
         >
           {jogsData.map((item) =>
             user.id === item.user_id ? (
-              dateFrom == 0 && dateTo == 0 ? (
-                <JogsCard editCard={editCard} key={item.id} {...item} id={item.id} />
+              dateFrom === 0 && dateTo === 0 ? (
+                <JogsCard
+                  editCard={editCard}
+                  key={item.id}
+                  {...item}
+                  id={item.id}
+                />
               ) : dateFrom <= item.date * 1000 && dateTo >= item.date * 1000 ? (
-                <JogsCard editCard={editCard} key={item.id} {...item} id={item.id}/>
+                <JogsCard
+                  editCard={editCard}
+                  key={item.id}
+                  {...item}
+                  id={item.id}
+                />
               ) : (
                 ""
               )

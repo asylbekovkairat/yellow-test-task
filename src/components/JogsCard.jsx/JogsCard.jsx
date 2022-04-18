@@ -2,7 +2,6 @@ import React from "react";
 
 export default function JogsCard({distance, time, date, id, editCard}) {
 
-
   return (
     <>
       <div className="jogsCard">
