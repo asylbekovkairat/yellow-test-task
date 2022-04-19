@@ -72,12 +72,11 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
   };
 
   useEffect(() => {
-    // jogsData.forEach((el) => {
-    //   if (user.id === el.user_id) {
-    //     setJogDataState(true);
-    //   }
-    // });
-    jogsData.forEach((el) => user.id === el.user_id ? setJogDataState(true) : setJogDataState(false))
+    jogsData.forEach((el) => {
+      if (user.id === el.user_id) {
+        setJogDataState(true);
+      }
+    });
   });
 
   return (
