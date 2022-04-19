@@ -1,15 +1,12 @@
-import axios from "axios";
+import Api from "../Api/Api";
+
 
 export default function LetMeIn({ setAuth }) {
   const letinAuth = () => {
-    axios
-      .post("https://jogtracker.herokuapp.com/api/v1/auth/uuidLogin", {
-        uuid: "hello",
-      })
-      .then((res) => {
-        setAuth(res.data.response);
-      }
-    );
+    Api.postLetMeIn({
+      uuid: "hello"
+    })
+    .then(res => setAuth(res.data.response));
   };
 
   return (

@@ -292,18 +292,13 @@
   .burger {
     display: block;
   }
-  .header_right {
-    display: flex;
-    justify-content: space-between;
-  }
   .filter_iconWrapper.active {
     display: none;
   }
   .header_right.active {
-    visibility: visible;
-    opacity: 1;
-    display: flex;
-    justify-content: right;
+    visibility: hidden;
+    opacity: 0;
+    display: none;
   }
 }
 @media (max-width: 768px) {
@@ -311,6 +306,7 @@
     width: 35%;
   }
 }
+
 /* Header end */
 
 /* letMeIn start */
@@ -367,6 +363,9 @@
   margin-top: 40px;
   width: 230px;
 }
+.jogsCard > img{
+  cursor: pointer;
+}
 .jogsCard > .jogDate {
   color: #979797;
 }
@@ -380,6 +379,9 @@
   align-items: center;
   opacity: 1;
   visibility: visible;
+}
+.jogsCard_wrapper > img {
+  cursor: pointer;
 }
 .jogsCard_wrapper.active {
   opacity: 0;
@@ -569,13 +571,14 @@
   display: none;
   opacity: 0;
 }
-.create_btn.active {
-}
 /* nothingPage end */
 
 /* ContactUs page start*/
 .resumeWrapper{
   display: flex;
   justify-content: center;
+}
+.resumeWrapper > img{
+  width: 100%;
 }
 /* ContactUs page end */
