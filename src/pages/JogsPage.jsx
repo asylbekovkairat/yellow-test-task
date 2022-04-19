@@ -1,15 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import EditModal from "../components/EditModal.jsx/EditModal";
 import JogsCard from "../components/JogsCard.jsx/JogsCard";
-import SaveModal from "../components/saveModal.jsx/SaveModal";
+import SaveModal from "../components/saveModal/SaveModal";
+import Api from "../Api/Api.js"
 
 export default function JogsPage({ dateFrom, dateTo, burger }) {
   const authData = JSON.parse(localStorage.getItem("authData"));
   const [jogsData, setJogsData] = useState([]);
   const [edit, setEdit] = useState(false);
   const [allData, setAllData] = useState(0);
-  const [action, setAction] = useState(false);
   const [distance, setDistance] = useState(0);
   const [time, setTime] = useState(0);
   const [date, setDate] = useState("");
@@ -21,40 +20,24 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
   const [jogDataState, setJogDataState] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("https://jogtracker.herokuapp.com/api/v1/auth/user", {
-        headers: { Authorization: "Bearer " + authData.access_token },
-      })
-      .then((data) => {
-        setUser(data.data.response);
-      });
-  }, [allData]);
+    Api.getAuthUser()
+      .then(res => setUser(res.data.response))
+  }, []);
 
   useEffect(() => {
-    axios
-      .get("https://jogtracker.herokuapp.com/api/v1/data/sync", {
-        headers: { Authorization: "Bearer " + authData.access_token },
-      })
-      .then((data) => {
-        setJogsData(data.data.response.jogs);
-      });
+    Api.getAllJogs()
+      .then(res => setJogsData(res.data.response.jogs))  
   }, [allData]);
 
   const editSubmit = (e) => {
     e.preventDefault();
-    axios.put(
-      "https://jogtracker.herokuapp.com/api/v1/data/jog",
-      {
-        date: date,
-        time: time,
-        distance: distance,
-        user_id: userId,
-        jog_id: jogId,
-      },
-      {
-        headers: { Authorization: `Bearer ${authData.access_token}` },
-      }
-    );
+    Api.putJogs({
+      date: date,
+      time: time,
+      distance: distance,
+      user_id: userId,
+      jog_id: jogId,
+    })
     setAllData(allData + 1);
     setActiveEdit(false);
   };
@@ -125,7 +108,7 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
       ) : (
         <div className={`nothingPage_wrapper ${edit ? "active" : " "}`}>
           <img src="./images/sad_emoji.svg" alt="sad" />
-          <div>nothing is there</div>
+          <div data-testid="nothing is there">nothing is there</div>
           <button
             onClick={() => setActiveSave(true)}
             className={`create_btn ${edit ? "active" : ""}`}
@@ -138,7 +121,6 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
         setActiveEdit={setActiveEdit}
         activeEdit={activeEdit}
         editSubmit={editSubmit}
-        action={action}
         setEdit={setEdit}
         setTime={setTime}
         setDate={setDate}

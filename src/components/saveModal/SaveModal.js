@@ -1,13 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
+import Api from "../../Api/Api"
+
 
 export default function SaveModal({
   setActiveSave,
   activeSave,
   setAllData,
   allData,
-  authData,
 }) {
   const [distance, setDistance] = useState(0);
   const [time, setTime] = useState(0);
@@ -15,17 +15,11 @@ export default function SaveModal({
 
   const submit = (e) => {
     e.preventDefault();
-    axios.post(
-      "https://jogtracker.herokuapp.com/api/v1/data/jog",
-      {
-        date: date,
-        time: time,
-        distance: distance,
-      },
-      {
-        headers: { Authorization: `Bearer ${authData.access_token}` },
-      }
-    );
+    Api.postJogs({
+      distance: distance,
+      time: time,
+      date: date,
+    })
     setAllData(allData + 1);
     setActiveSave(false);
   };
@@ -60,6 +54,7 @@ export default function SaveModal({
           <input
             onChange={(e) => setDate(e.target.value)}
             type="date"
+            placeholder="what's the date?"
             required
           />
         </label>
