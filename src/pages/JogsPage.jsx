@@ -19,25 +19,37 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
   const [user, setUser] = useState([]);
   const [jogDataState, setJogDataState] = useState(false);
 
+  // first option of making request 
+  const getAllJogs = async () => {
+    try{
+      const data = await Api.getAllJogs()
+      setJogsData(data.data.response.jogs)
+    }catch(error){
+      console.log(error)
+    }
+  }
+  
+  useEffect(() => {
+    getAllJogs()
+  }, [allData]);
+
+  // second option of making request 
   useEffect(() => {
     Api.getAuthUser()
       .then(res => setUser(res.data.response))
   }, []);
 
-  useEffect(() => {
-    Api.getAllJogs()
-      .then(res => setJogsData(res.data.response.jogs))  
-  }, [allData]);
+  const editSubmitData = {
+    date: date,
+    time: time,
+    distance: distance,
+    user_id: userId,
+    jog_id: jogId,
+  }
 
   const editSubmit = (e) => {
     e.preventDefault();
-    Api.putJogs({
-      date: date,
-      time: time,
-      distance: distance,
-      user_id: userId,
-      jog_id: jogId,
-    })
+    Api.putJogs(editSubmitData)
     setAllData(allData + 1);
     setActiveEdit(false);
   };
@@ -60,11 +72,12 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
   };
 
   useEffect(() => {
-    jogsData.forEach((el) => {
-      if (user.id === el.user_id) {
-        setJogDataState(true);
-      }
-    });
+    // jogsData.forEach((el) => {
+    //   if (user.id === el.user_id) {
+    //     setJogDataState(true);
+    //   }
+    // });
+    jogsData.forEach((el) => user.id === el.user_id ? setJogDataState(true) : setJogDataState(false))
   });
 
   return (

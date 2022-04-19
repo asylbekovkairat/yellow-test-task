@@ -11,6 +11,8 @@ export default function EditModal({
   date,
   activeEdit,
 }) {
+
+  
   return (
     <div className={`editModal_wrapper ${activeEdit ? "active" : ""}`}>
       <form onSubmit={editSubmit} className="editModal_window">

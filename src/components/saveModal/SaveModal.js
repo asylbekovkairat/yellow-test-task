@@ -12,17 +12,20 @@ export default function SaveModal({
   const [distance, setDistance] = useState(0);
   const [time, setTime] = useState(0);
   const [date, setDate] = useState("");
+  const saveSubmitData = {
+    distance: distance,
+    time: time,
+    date: date,
+  }
 
   const submit = (e) => {
-    e.preventDefault();
-    Api.postJogs({
-      distance: distance,
-      time: time,
-      date: date,
-    })
+    e.preventDefault(saveSubmitData);
+    Api.postJogs()
     setAllData(allData + 1);
     setActiveSave(false);
   };
+
+  
   return (
     <div className={`editModal_wrapper ${activeSave ? "active" : ""}`}>
       <form onSubmit={submit} className="editModal_window">
