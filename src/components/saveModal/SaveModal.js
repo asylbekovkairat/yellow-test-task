@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import Api from "../../Api/Api"
+import Api from "../../Api/Api";
 
-
-export default function SaveModal({
+export default React.memo(function SaveModal({
   setActiveSave,
   activeSave,
   setAllData,
@@ -16,16 +15,15 @@ export default function SaveModal({
     distance: distance,
     time: time,
     date: date,
-  }
+  };
 
   const submit = (e) => {
     e.preventDefault(saveSubmitData);
-    Api.postJogs()
+    Api.postJogs();
     setAllData(allData + 1);
     setActiveSave(false);
   };
 
-  
   return (
     <div className={`editModal_wrapper ${activeSave ? "active" : ""}`}>
       <form onSubmit={submit} className="editModal_window">
@@ -65,4 +63,4 @@ export default function SaveModal({
       </form>
     </div>
   );
-}
+});

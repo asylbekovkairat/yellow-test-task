@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function EditModal({
+export default React.memo(function EditModal({
   setActiveEdit,
   editSubmit,
   setDate,
@@ -51,4 +51,4 @@ export default function EditModal({
       </form>
     </div>
   );
-}
+})

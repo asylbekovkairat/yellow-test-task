@@ -5,9 +5,7 @@ import SaveModal from "../components/saveModal/SaveModal";
 import Api from "../Api/Api.js"
 
 export default function JogsPage({ dateFrom, dateTo, burger }) {
-  const authData = JSON.parse(localStorage.getItem("authData"));
   const [jogsData, setJogsData] = useState([]);
-  const [edit, setEdit] = useState(false);
   const [allData, setAllData] = useState(0);
   const [distance, setDistance] = useState(0);
   const [time, setTime] = useState(0);
@@ -28,10 +26,9 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
       console.log(error)
     }
   }
-  
   useEffect(() => {
     getAllJogs()
-  }, [allData]);
+  }, [allData])
 
   // second option of making request 
   useEffect(() => {
@@ -77,7 +74,7 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
         setJogDataState(true);
       }
     });
-  });
+  }, [jogsData]);
 
   return (
     <>
@@ -118,12 +115,12 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
           />
         </div>
       ) : (
-        <div className={`nothingPage_wrapper ${edit ? "active" : " "}`}>
+        <div className={`nothingPage_wrapper ${activeSave ? "active" : " "}`}>
           <img src="./images/sad_emoji.svg" alt="sad" />
           <div data-testid="nothing is there">nothing is there</div>
           <button
             onClick={() => setActiveSave(true)}
-            className={`create_btn ${edit ? "active" : ""}`}
+            className={`create_btn ${activeSave ? "active" : ""}`}
           >
             Create your new jog!
           </button>
@@ -133,7 +130,6 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
         setActiveEdit={setActiveEdit}
         activeEdit={activeEdit}
         editSubmit={editSubmit}
-        setEdit={setEdit}
         setTime={setTime}
         setDate={setDate}
         setDistance={setDistance}
@@ -142,7 +138,6 @@ export default function JogsPage({ dateFrom, dateTo, burger }) {
         distance={distance}
       />
       <SaveModal
-        authData={authData}
         activeSave={activeSave}
         setActiveSave={setActiveSave}
         setAllData={setAllData}
