@@ -70,7 +70,7 @@ function App() {
               element={
                 <PrivateRoute
                   auth={auth}
-                  component={<ContactUsPage/>}
+                  component={<ContactUsPage burger={burger}/>}
                 />
               }
             />
